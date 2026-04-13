@@ -1,3 +1,6 @@
 data/
 samples/
 .idea/
+
+baseline_regression_model.ipynb
+xg_boost_model.ipynb
