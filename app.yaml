@@ -1,0 +1,12 @@
+runtime: python311
+entrypoint: gunicorn -b :$PORT app:server
+
+handlers:
+- url: /assets
+  static_dir: assets
+
+- url: /figures
+  static_dir: figures
+
+- url: /.*
+  script: auto
