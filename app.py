@@ -226,6 +226,22 @@ system_layout = html.Div([
             html.Li("Modeling notebooks and code stored in GitHub"),
             html.Li("Processed results displayed through the deployed website"),
         ], style={"marginBottom": "30px"}),
+        
+        html.H2("Cloud Run Inference Service"),
+        html.P("""
+        We deployed a demo ML inference API using Google Cloud Run. The API accepts early product features,
+        such as first-4-week review count, rating, review velocity, and helpful votes, then returns a predicted
+        success probability.
+        """),
+        html.Code(
+            "Cloud Run API: https://product-success-api-14643848899.us-west1.run.app",
+            style={
+                "display": "block",
+                "backgroundColor": "#f4f4f4",
+                "padding": "10px",
+                "borderRadius": "6px"
+            }
+        ),
 
         html.H2("Cloud Data Storage"),
         html.Div([
