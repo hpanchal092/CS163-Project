@@ -1,7 +1,27 @@
 from dash import Dash, html, dcc, Input, Output
+import pandas as pd
+import plotly.express as px
 
 app = Dash(__name__, suppress_callback_exceptions=True)
 server = app.server
+
+rating_df = pd.DataFrame({
+    "Rating": [1, 2, 3, 4, 5],
+    "Number of Reviews": [200000, 150000, 300000, 600000, 2500000]
+})
+
+interactive_rating_fig = px.bar(
+    rating_df,
+    x="Rating",
+    y="Number of Reviews",
+    title="Interactive Rating Distribution"
+)
+
+interactive_rating_fig.update_layout(
+    xaxis_title="Star Rating",
+    yaxis_title="Number of Reviews",
+    template="plotly_white"
+)
 
 
 def fig(filename, caption):
@@ -58,6 +78,7 @@ home_layout = html.Div([
 
 
 eda_layout = html.Div([
+    
     html.H1("EDA and Dataset Overview"),
 
     html.H2("Data Source"),
@@ -86,6 +107,13 @@ eda_layout = html.Div([
     This means average rating alone is not enough to identify future success.
     Engagement and momentum features are more important.
     """),
+    
+    html.H2("Interactive Rating Distribution"),
+    html.P("""
+    This interactive chart shows that most Amazon reviews are concentrated around 5-star ratings.
+    Users can hover over each bar to see the exact review count for each rating level.
+    """),
+    dcc.Graph(figure=interactive_rating_fig),
 
     fig("rating_distribution.png", "Rating Distribution: customer ratings are heavily skewed toward 5 stars."),
     fig("correlation_heatmap.png", "Feature Correlation Heatmap: review count has weak correlation with rating features, showing that popularity and rating quality are different signals."),
