@@ -1,6 +1,9 @@
 runtime: python311
 entrypoint: gunicorn -b :$PORT app:server
 
+automatic_scaling:
+  max_instances: 2
+
 handlers:
 - url: /assets
   static_dir: assets
