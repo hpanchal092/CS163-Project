@@ -210,34 +210,78 @@ findings_layout = html.Div([
 
 
 system_layout = html.Div([
-    html.H1("System Design and Deployment"),
 
-    html.P("""
-    The final website is deployed using Google App Engine. The website presents the project summary, EDA, methods,
-    model results, and major findings in an interactive format.
-    """),
+    html.Div([
+        html.H1("System Design and Deployment"),
 
-    html.H2("Current Architecture"),
-    html.Ul([
-        html.Li("Dash website hosted on Google App Engine"),
-        html.Li("Static plots stored in the website assets folder"),
-        html.Li("Modeling notebooks and code stored in GitHub"),
-        html.Li("Processed results displayed through the deployed website"),
-    ]),
+        html.P("""
+        The final website is deployed using Google App Engine. The website presents the project summary, EDA, methods,
+        model results, and major findings in an interactive format.
+        """, style={"marginBottom": "30px"}),
 
-    html.H2("Planned Cloud Extensions"),
-    html.Ul([
-        html.Li("Store processed datasets in Google Cloud Storage"),
-        html.Li("Deploy trained XGBoost model as a Dockerized Cloud Run inference service"),
-        html.Li("Connect the website to the inference API so users can submit early product features"),
-        html.Li("Improve scalability by separating website, data storage, and model inference"),
-    ]),
+        html.H2("Current Architecture"),
+        html.Ul([
+            html.Li("Dash website hosted on Google App Engine"),
+            html.Li("Static plots stored in the website assets folder"),
+            html.Li("Modeling notebooks and code stored in GitHub"),
+            html.Li("Processed results displayed through the deployed website"),
+        ], style={"marginBottom": "30px"}),
 
-    html.H2("System Design Summary"),
-    html.P("""
-    User → App Engine Dash Website → Static Results / Future Cloud Run Model API → Cloud Storage.
-    This separates the website, dataset, and model service, making the project easier to maintain and extend.
-    """),
+        html.H2("Cloud Data Storage"),
+        html.Div([
+            html.P("""
+            We store processed dataset samples in Google Cloud Storage (GCS) to support scalable data access
+            and cloud-based workflows.
+            """),
+            html.P(
+                "Example dataset file:",
+                style={"fontWeight": "bold", "marginTop": "10px"}
+            ),
+            html.Code(
+                "gs://cs163-g13-product-data-vince/project_dataset_summary.csv",
+                style={
+                    "display": "block",
+                    "backgroundColor": "#f4f4f4",
+                    "padding": "10px",
+                    "borderRadius": "6px"
+                }
+            )
+        ], style={
+            "backgroundColor": "#f9fafb",
+            "padding": "20px",
+            "borderRadius": "10px",
+            "marginBottom": "30px"
+        }),
+
+        html.H2("Planned Cloud Extensions"),
+        html.Ul([
+            html.Li("Store processed datasets in Google Cloud Storage"),
+            html.Li("Deploy trained XGBoost model as a Dockerized Cloud Run inference service"),
+            html.Li("Connect the website to the inference API so users can submit early product features"),
+            html.Li("Improve scalability by separating website, data storage, and model inference"),
+        ], style={"marginBottom": "30px"}),
+
+        html.H2("System Design Summary"),
+        html.Div([
+            html.P("""
+            User → App Engine Dash Website → Static Results / Future Cloud Run Model API → Cloud Storage.
+            """),
+            html.P("""
+            This architecture separates the website, dataset, and model service,
+            making the system easier to scale, maintain, and extend.
+            """)
+        ], style={
+            "backgroundColor": "#eef6ff",
+            "padding": "20px",
+            "borderRadius": "10px"
+        }),
+
+    ], style={
+        "maxWidth": "900px",
+        "margin": "auto",
+        "padding": "40px"
+    })
+
 ])
 
 
