@@ -193,7 +193,8 @@ Model API: https://product-success-api-14643848899.us-west1.run.app
 ### Endpoint:
 POST /predict
 
-### Input:
+### Input
+
 ```json
 {
   "n_reviews_4w": 10,
@@ -201,66 +202,99 @@ POST /predict
   "reviews_per_day_4w": 0.5,
   "sum_vote_4w": 25
 }
+```
 
-📤 Output 
+### Output
 
+```json
 {
   "success_probability": 0.62,
   "prediction": "High potential"
 }
+```
 
-🏗️ System Architecture
+---
+
+## System Architecture
+
+```text
 User
- ↓
+↓
 Dash Website (App Engine)
- ↓
+↓
 Visualizations + Results
- ↓
+↓
 Cloud Run API
- ↓
+↓
 Cloud Storage
+```
 
-✅ Clean separation:
+**Clean separation:**
 
-Frontend (Dash)
-Backend (API)
-Data (GCS)
+- Frontend: Dash website
+- Backend: Cloud Run API
+- Data: Google Cloud Storage
 
-📁 Project Structure 
+---
+
+## Project Structure
+
+```text
 CS163-Project/
-│
 ├── app.py
 ├── app.yaml
 ├── requirements.txt
 ├── README.md
-│
 ├── assets/
 ├── cloud_data/
 ├── inference_service/
-│
 ├── eda.ipynb
 └── prelim_results_models.ipynb
+```
 
-🛠️ Run Locally
-1. Clone
+---
+
+## Run Locally
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/hpanchal092/CS163-Project.git
 cd CS163-Project
-2. Install
+```
+
+### 2. Install dependencies
+
+```bash
 pip install -r requirements.txt
-3. Run
+```
+
+### 3. Run the app
+
+```bash
 python app.py
-4. Open
+```
+
+### 4. Open in browser
+
+```text
 http://127.0.0.1:8050
+```
 
-🔮 Future Work
-Add NLP sentiment features
-Try different time windows (2, 4, 8 weeks)
-Category-specific models
-Improve label definition
-Connect UI → API live prediction
-✅ Conclusion
-Early review data is useful but not perfect
-Engagement signals outperform rating
-XGBoost gives best performance
+---
 
-👉 Best use: ranking high-potential products early
+## Future Work
+
+- Add NLP sentiment features
+- Try different time windows, such as 2, 4, and 8 weeks
+- Train category-specific models
+- Improve the success label definition
+- Connect the website UI directly to the Cloud Run API
+
+---
+
+## Conclusion
+
+Early review data is useful but not perfect. Engagement signals outperform rating-only features, and XGBoost gives the best performance.
+
+**Best use case:** ranking high-potential products early.
