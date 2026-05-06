@@ -201,7 +201,9 @@ POST /predict
   "reviews_per_day_4w": 0.5,
   "sum_vote_4w": 25
 }
-Output:
+
+📤 Output 
+
 {
   "success_probability": 0.62,
   "prediction": "High potential"
