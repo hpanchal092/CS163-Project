@@ -24,6 +24,8 @@ This project predicts whether an e-commerce product will become successful using
 - Help sellers identify **high-potential products early**
 - Avoid waiting months for full sales data
 
+This project treats success prediction as a **ranking problem rather than a binary classification task**, focusing on identifying top-performing products early.
+
 ---
 
 ## 💡 Motivation
@@ -317,6 +319,6 @@ http://127.0.0.1:8050
 
 ## Conclusion
 
-Early review data is useful but not perfect. Engagement signals outperform rating-only features, and XGBoost gives the best performance.
+Early review data is useful but not perfect. Engagement signals outperform rating-only features, and XGBoost gives the best performance. 👉 This system enables practical early-stage decision-making for e-commerce sellers using minimal initial data.
 
 **Best use case:** ranking high-potential products early.
