@@ -188,10 +188,20 @@ Model API: https://product-success-api-14643848899.us-west1.run.app
 
 ---
 
+### 🔗 Cloud Integration
+
+- Website (App Engine) displays results and visualizations
+- Cloud Run serves the prediction API
+- Google Cloud Storage stores dataset samples
+- Future: Website → API connection for real-time prediction
+
+
+---
+
 ## 🔌 API Example
 
 ### Endpoint:
-POST /predict
+POST https://product-success-api-14643848899.us-west1.run.app/predict
 
 ### Input
 
@@ -292,6 +302,18 @@ http://127.0.0.1:8050
 - Connect the website UI directly to the Cloud Run API
 
 ---
+
+
+## ⚠️ Limitations
+
+- Model performance is moderate (not perfect classification)
+- Ratings are heavily skewed toward 4–5 stars
+- Only structured features used (no NLP)
+- Early signals may not capture long-term trends
+
+---
+
+
 
 ## Conclusion
 
