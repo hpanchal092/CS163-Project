@@ -4,3 +4,4 @@ samples/
 
 baseline_regression_model.ipynb
 xg_boost_model.ipynb
+final_model_with_text_features.ipynb

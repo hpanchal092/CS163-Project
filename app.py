@@ -65,14 +65,15 @@ home_layout = html.Div([
     html.Div([
         html.Div([html.H3("50,000"), html.P("Sampled Products")], className="metric-card"),
         html.Div([html.H3("Top 10%"), html.P("Success Label")], className="metric-card"),
-        html.Div([html.H3("0.679"), html.P("Best ROC-AUC")], className="metric-card"),
-        html.Div([html.H3("0.287"), html.P("Best Precision@K")], className="metric-card"),
+        html.Div([html.H3("0.693"), html.P("Best ROC-AUC (Final Model)")], className="metric-card"),
+        html.Div([html.H3("0.300"), html.P("Best Precision@K (Final Model)")], className="metric-card"),
     ], className="metric-grid"),
 
     html.H2("Main Takeaway"),
     html.P("""
-    Early engagement features such as review count, votes, and review velocity are more useful than ratings alone.
-    XGBoost performs better than Logistic Regression, but the model is best used as a ranking tool rather than a perfect yes/no classifier.
+    Early engagement features remain strong predictors, but adding sentiment and text-based features further improves model performance.
+    The final XGBoost model achieves higher ROC-AUC and Precision@K, confirming that review content provides additional predictive signal.
+    The model is most effective as a ranking system for identifying high-potential products rather than making strict binary predictions.
     """),
 ])
 
@@ -126,11 +127,11 @@ methods_layout = html.Div([
 
     html.H2("Feature Engineering"),
     html.Ul([
-        html.Li("Review count in the first 4 weeks"),
-        html.Li("Reviews per day / review velocity"),
-        html.Li("Mean, median, min, max, and standard deviation of ratings"),
-        html.Li("Total helpful votes and votes per review"),
-        html.Li("Review text length and summary length"),
+        html.Li("Review count and review velocity in the first 4 weeks"),
+        html.Li("Rating statistics and rating trends over time"),
+        html.Li("Helpful vote signals (total votes and votes per review)"),
+        html.Li("Text-based features including TF-IDF representations of review text"),
+        html.Li("Sentiment features (average sentiment, sentiment variability, and sentiment trends)"),
         html.Li("Product category encoded as categorical features"),
     ]),
 
@@ -139,6 +140,14 @@ methods_layout = html.Div([
     We compare a simple baseline model and a stronger tree-based model.
     Logistic Regression is used as the baseline because it is interpretable and easy to compare.
     XGBoost is used because it can capture nonlinear relationships and feature interactions.
+    """),
+
+    html.H2("Text Feature Modeling"),
+    html.P("""
+    To incorporate review content, we used TF-IDF vectorization to extract important words and phrases from early reviews,
+    and reduced dimensionality using TruncatedSVD. Using this, we found clear language differences between review bodies of high performing products versus low performing products. We also computed sentiment features such as average sentiment,
+    sentiment variability, and sentiment trends over time. These features were combined with structured early signals
+    to improve prediction performance.
     """),
 
     html.H2("Evaluation Metrics"),
@@ -156,8 +165,9 @@ ml_layout = html.Div([
 
     html.H2("Model Performance"),
     html.P("""
-    Both models performed better than random. XGBoost outperformed Logistic Regression across all major metrics,
-    showing that early product review signals contain useful predictive information.
+    Both models performed better than random, but the final XGBoost model with text and sentiment features achieved the best performance.
+    Compared to the baseline model, the final model improved ROC-AUC, Average Precision, and Precision@K,
+    demonstrating that review text provides additional predictive signal beyond structured features.
     """),
 
     fig("roc_curve.png", "Figure 1: ROC Curve Comparison. XGBoost achieves higher ROC-AUC than Logistic Regression."),
@@ -166,8 +176,9 @@ ml_layout = html.Div([
 
     html.H2("Feature Importance"),
     html.P("""
-    The most important features are engagement-related: total votes, votes per review, review count, and review velocity.
-    Rating features are less useful because ratings are highly concentrated near 4 and 5 stars.
+    The most important features remain engagement-related, including review count, review velocity, and helpful votes.
+    However, sentiment features and text-derived features also contributed to improved performance, especially in certain categories such as Toys and Games,
+    indicating that how users describe products provides additional predictive information beyond ratings alone.
     """),
 
     fig("xgboost_importance.png", "Figure 4: XGBoost Feature Importance."),
@@ -179,32 +190,108 @@ findings_layout = html.Div([
 
     html.H2("Finding 1: Early Data Can Predict Product Success"),
     html.P("""
-    Using only first-4-week data, XGBoost achieved ROC-AUC around 0.679 compared to 0.638 for Logistic Regression.
-    This supports the idea that early product activity contains predictive signals.
+    Using only first-4-week data, the final XGBoost model achieved ROC-AUC of approximately 0.693,
+    improving over the baseline model. This confirms that early product activity contains meaningful predictive signals,
+    and that incorporating text and sentiment features provides additional improvements.
     """),
 
     html.H2("Finding 2: Engagement Features Matter More Than Ratings"),
     html.P("""
-    Features such as review count, total votes, votes per review, and review velocity were stronger signals than average rating.
-    This suggests success is more connected to early engagement and momentum than star rating alone.
+    Engagement features such as review count, review velocity, and helpful votes remain the strongest predictors.
+    However, text and sentiment features also contribute to improved performance, indicating that the content of reviews
+    provides additional signal beyond numerical ratings.
     """),
 
-    html.H2("Finding 3: Performance Varies by Category"),
+    html.H2("Finding 3: Review Language Reveals Category-Specific Success Patterns"),
+
     html.P("""
-    Model performance is not equal across categories. XGBoost performed best for Tools and Home Improvement and weaker for
-    Clothing, Shoes, and Jewelry. This suggests category-specific models may improve future performance.
+    Text analysis reveals that the language used in early reviews differs significantly between high-performing and low-performing products,
+    and these patterns vary across product categories. High-performing products are consistently associated with functional,
+    usage-based language, while low-performing products are associated with more generic, aesthetic, or low-information phrases.
     """),
 
+    html.H3("Electronics"),
+    html.P("""
+    In Electronics, high-performing products are associated with terms such as "usb", "cable", "drive", "mouse", and "wireless",
+    which describe concrete functionality and technical usage. These terms reflect products being actively used for specific tasks.
+    In contrast, low-performing products are associated with generic phrases such as "stars", "great", and "nice",
+    indicating shallow or repetitive reviews with limited technical detail.
+    """),
+
+    html.H3("Sports and Outdoors"),
+    html.P("""
+    In Sports and Outdoors, high-performing products are associated with practical and usage-related terms such as "water", "bottle",
+    "carry", and "weight", which describe real-world use cases. Low-performing products again show more generic sentiment terms such as
+    "great", "nice", and "stars", along with recreational terms like "fun" and "ball" that may reflect less specific product evaluation.
+    """),
+
+    html.H3("Tools and Home Improvement"),
+    html.P("""
+    For Tools and Home Improvement, high-performing products are associated with functional and performance-related terms such as
+    "battery", "power", "switch", "filter", and "light", indicating that successful products are evaluated based on reliability
+    and utility. Low-performing products include more generic terms such as "good", "nice", and "stars", suggesting less detailed feedback.
+    """),
+
+    html.H3("Toys and Games"),
+    html.P("""
+    In Toys and Games, high-performing products are associated with engagement and interaction terms such as "game", "play",
+    "fun", and "toy", indicating products that are actively used and enjoyed. Low-performing products are more associated with
+    aesthetic and gift-oriented language such as "cute", "figure", "gift", and "collection", suggesting novelty-based appeal
+    rather than sustained engagement.
+    """),
+
+    html.H3("Clothing, Shoes, and Jewelry"),
+    html.P("""
+    For Clothing, Shoes, and Jewelry, high-performing products are strongly associated with fit and comfort-related terms such as
+    "fit", "size", "comfortable", "wear", and "shoes". These terms indicate that successful products meet functional user needs.
+    Low-performing products include more aesthetic or generic terms such as "beautiful", "watch", and "stars", suggesting less
+    focus on fit and usability.
+    """),
+
+    html.P("""
+    Across all categories, a consistent pattern emerges: high-performing products generate more specific, functional,
+    and usage-oriented language, while low-performing products are associated with generic, repetitive, or aesthetic descriptions.
+    This suggests that the quality and specificity of early review content is a strong indicator of long-term product success.
+    """),
+
+    html.H2("Finding 4: Performance Varies by Category"),
+    html.P("""
+    Model performance varies across product categories, indicating that early success signals are not equally informative in every domain.
+    XGBoost consistently outperformed Logistic Regression across all categories, demonstrating the benefit of modeling nonlinear relationships
+    and feature interactions. However, the magnitude of performance differs by category: XGBoost achieved higher accuracy in categories such as
+    Tools and Home Improvement, where functionality and usage patterns are more clearly reflected in early reviews, and lower performance in
+    categories like Clothing, Shoes, and Jewelry, where factors such as fit, style, and subjective preferences introduce greater variability.
+
+    This suggests that while a global model is effective, category-specific models or feature adjustments may further improve performance
+    by capturing domain-specific patterns.
+    """),
     fig("correlation_features.png", "Correlation of first-4-week features with product success."),
     fig("category_auc.png", "Figure 5: Category-level ROC-AUC comparison."),
     fig("category_consistency.png", "Figure 6: Model performance consistency across categories."),
 
+    html.H2("Text Theme Visualization"),
+
+    html.P("""
+    The following plots show the most important words and phrases associated with high-performing and low-performing products
+    for each category. Positive values indicate terms more associated with successful products, while negative values indicate
+    terms more associated with less successful products.
+    """),
+
+    fig("electronics_theme.png", "Electronics: functional and technical terms are associated with successful products."),
+    fig("sports_theme.png", "Sports and Outdoors: usage-based terms dominate high-performing products."),
+    fig("tools_theme.png", "Tools and Home Improvement: performance and utility-related terms predict success."),
+    fig("toys_theme.png", "Toys and Games: engagement terms vs aesthetic/gift-based language."),
+    fig("clothing_theme.png", "Clothing: fit and comfort dominate successful products."),
+
     html.H2("Conclusion"),
     html.P("""
-    Overall, early review data provides useful but incomplete signals.
-    The best use case is ranking high-potential products rather than making perfect binary predictions.
-    Future work should add NLP features such as sentiment and review topics, test different early time windows,
-    and build category-specific models.
+    Overall, early review data provides useful predictive signals, especially when combining structured features with
+    text and sentiment analysis. The results show that both engagement metrics and review language contribute to identifying
+    successful products early. In particular, category-specific text patterns reveal that successful products are described
+    using functional and usage-based language, while low-performing products tend to receive generic or aesthetic feedback.
+
+    The model is best used as a ranking system to identify high-potential products rather than making perfect binary predictions.
+    Future work could include richer semantic embeddings, improved success definitions, and category-specific modeling to further improve performance.
     """),
 ])
 
