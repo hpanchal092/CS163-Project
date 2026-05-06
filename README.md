@@ -65,7 +65,7 @@ gs://cs163-g13-product-data-vince/project_dataset_summary.csv
 ---
 
 ## ⚙️ Project Pipeline
-
+```text
 Raw Data
 ↓
 Sampling
@@ -79,7 +79,7 @@ Model Training
 Evaluation
 ↓
 Website + Cloud Deployment
-
+```
 
 ---
 
