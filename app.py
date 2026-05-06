@@ -277,11 +277,11 @@ findings_layout = html.Div([
     terms more associated with less successful products.
     """),
 
-    fig("electronics_theme.png", "Electronics: functional and technical terms are associated with successful products."),
-    fig("sports_theme.png", "Sports and Outdoors: usage-based terms dominate high-performing products."),
-    fig("tools_theme.png", "Tools and Home Improvement: performance and utility-related terms predict success."),
-    fig("toys_theme.png", "Toys and Games: engagement terms vs aesthetic/gift-based language."),
-    fig("clothing_theme.png", "Clothing: fit and comfort dominate successful products."),
+    fig("electronics_terms.png", "Electronics: functional and technical terms are associated with successful products."),
+    fig("sports_terms.png", "Sports and Outdoors: usage-based terms dominate high-performing products."),
+    fig("tools_terms.png", "Tools and Home Improvement: performance and utility-related terms predict success."),
+    fig("toys_terms.png", "Toys and Games: engagement terms vs aesthetic/gift-based language."),
+    fig("clothing_terms.png", "Clothing: fit and comfort dominate successful products."),
 
     html.H2("Conclusion"),
     html.P("""
