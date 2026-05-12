@@ -135,12 +135,18 @@ methods_layout = html.Div([
         html.Li("Product category encoded as categorical features"),
     ]),
 
+
     html.H2("Models"),
     html.P("""
-    We compare a simple baseline model and a stronger tree-based model.
-    Logistic Regression is used as the baseline because it is interpretable and easy to compare.
-    XGBoost is used because it can capture nonlinear relationships and feature interactions.
+    We compare multiple models with increasing complexity. Logistic Regression is used as a simple baseline because it is interpretable and easy to compare.
+    Random Forest is added as an ensemble model, XGBoost is used as a stronger gradient boosting model, and a Neural Network is included to test whether a more complex nonlinear model can improve prediction performance.
     """),
+    html.Ul([
+        html.Li("Logistic Regression: simple interpretable baseline"),
+        html.Li("Random Forest: ensemble model for nonlinear relationships"),
+        html.Li("XGBoost: gradient boosting model with strong predictive performance"),
+        html.Li("Neural Network: more complex nonlinear model for comparison"),
+    ]),
 
     html.H2("Text Feature Modeling"),
     html.P("""
@@ -170,9 +176,12 @@ ml_layout = html.Div([
     demonstrating that review text provides additional predictive signal beyond structured features.
     """),
 
-    fig("roc_curve.png", "Figure 1: ROC Curve Comparison. XGBoost achieves higher ROC-AUC than Logistic Regression."),
-    fig("pr_curve.png", "Figure 2: Precision-Recall Curve. XGBoost performs better on the imbalanced success label."),
-    fig("metric_comparison.png", "Figure 3: Metric Comparison. XGBoost improves ROC-AUC, recall, F1, and Precision@K."),
+    fig("roc_curve_4models.png", 
+    "Figure 1: ROC Curve comparison across Logistic Regression, Random Forest, XGBoost, and Neural Network models. XGBoost achieved the highest ROC-AUC overall."),
+    fig("pr_curve_4models.png", 
+    "Figure 2: Precision-Recall Curve comparison across all four models. XGBoost and Neural Network performed better on the imbalanced success prediction task."),
+    fig("metric_comparison_4models.png", 
+    "Figure 3: Overall metric comparison across Logistic Regression, Random Forest, XGBoost, and Neural Network models, including ROC-AUC, Average Precision, Recall, F1, and Precision@K."),
 
     html.H2("Feature Importance"),
     html.P("""
@@ -209,6 +218,7 @@ findings_layout = html.Div([
     and these patterns vary across product categories. High-performing products are consistently associated with functional,
     usage-based language, while low-performing products are associated with more generic, aesthetic, or low-information phrases.
     """),
+    
 
     html.H3("Electronics"),
     html.P("""
@@ -282,6 +292,12 @@ findings_layout = html.Div([
     fig("tools_terms.png", "Tools and Home Improvement: performance and utility-related terms predict success."),
     fig("toys_terms.png", "Toys and Games: engagement terms vs aesthetic/gift-based language."),
     fig("clothing_terms.png", "Clothing: fit and comfort dominate successful products."),
+    
+    html.H2("Additional Finding: Popularity Alone Is Not Enough"),
+    html.P("""
+    Instructor feedback highlighted an important limitation: a product with millions of reviews but mostly 1-star ratings should not be considered truly successful.
+    This means success should not be defined only by review count. A better success definition should combine both engagement and quality, such as review volume, average rating, rating stability, and sentiment.
+    """),
 
     html.H2("Conclusion"),
     html.P("""

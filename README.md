@@ -110,6 +110,15 @@ We extract features from **first 4 weeks only**:
 - Captures nonlinear relationships
 - Handles feature interactions better
 
+### Additional Models After Feedback
+
+After instructor feedback, we expanded the comparison to include:
+
+- Random Forest
+- Neural Network / MLP
+
+This allows us to compare simple linear models, ensemble models, boosting models, and neural network models.
+
 ---
 
 ## 📈 Evaluation Metrics
@@ -312,6 +321,8 @@ http://127.0.0.1:8050
 - Ratings are heavily skewed toward 4–5 stars
 - Only structured features used (no NLP)
 - Early signals may not capture long-term trends
+- Review count alone may overestimate products that are popular but poorly rated.
+- A better future success label should combine review volume, rating quality, and sentiment.
 
 ---
 
